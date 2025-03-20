@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { QueryProvider } from "@/providers/QueryProvider";
-import { ThemeProvider } from "@/components/theme-provider"
+import { QueryProvider } from "@/providers/query-provider";
+import { ThemeProvider } from "@/providers/theme-provider"
 import { Inter } from "next/font/google"
 import "./globals.css";
 
@@ -20,9 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <QueryProvider>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        {children}
-      </ThemeProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {children}
+          </ThemeProvider>
         </QueryProvider>
       </body>
     </html>
