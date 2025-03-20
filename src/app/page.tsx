@@ -10,7 +10,7 @@ import { useFavorites } from "@/hooks/use-favorites"
 import type { VideoData } from "@/types/video"
 import { useSearch } from "@/hooks/use-search"
 import { Skeleton } from "@/components/ui/skeleton"
-import VideoDialog from "@/components/video-dialog"
+import VideoDialog from "@/components/video-player"
 
 export default function VideoHomePage() {
   const [selectedVideo, setSelectedVideo] = useState<VideoData | null>(null)
