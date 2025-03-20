@@ -1,103 +1,116 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { useState } from "react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Input } from "@/components/ui/input"
+import { Search } from "lucide-react"
+import VideoList from "@/components/video-list"
+import { useVideos } from "@/hooks/use-videos"
+import { useFavorites } from "@/hooks/use-favorites"
+import type { VideoData } from "@/types/video"
+import { useSearch } from "@/hooks/use-search"
+import { Skeleton } from "@/components/ui/skeleton"
+import VideoDialog from "@/components/video-dialog"
+
+export default function VideoHomePage() {
+  const [selectedVideo, setSelectedVideo] = useState<VideoData | null>(null)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [activeTab, setActiveTab] = useState("all")
+  const { videos, isLoading, error } = useVideos()
+  const { favorites, toggleFavorite, isFavorite } = useFavorites()
+
+  const favoriteVideos = videos.filter((video) => favorites.includes(video.id))
+
+  const filteredAllVideos = useSearch(videos, searchQuery)
+  const filteredFavoriteVideos = useSearch(favoriteVideos, searchQuery)
+
+  const currentVideoList = activeTab === "all" ? filteredAllVideos : filteredFavoriteVideos
+
+  const handleVideoSelect = (video: VideoData) => {
+    setSelectedVideo(video)
+  }
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="container mx-auto px-4 py-6 max-w-7xl">
+      <h1 className="text-3xl font-bold mb-6">VEx Platform</h1>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+      <VideoDialog
+        video={selectedVideo}
+        open={!!selectedVideo}
+        onOpenChange={(open) => {
+          if (!open) setSelectedVideo(null)
+        }}
+        videos={currentVideoList}
+        onVideoChange={setSelectedVideo}
+      />
+
+      <div className="relative mb-6">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+        <Input
+          type="search"
+          placeholder="Search videos..."
+          className="pl-10"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+
+      <Tabs defaultValue="all" className="mb-6" onValueChange={(value) => setActiveTab(value)}>
+        <TabsList className="mb-4">
+          <TabsTrigger value="all">All Videos</TabsTrigger>
+          <TabsTrigger value="favorites">Favorites ({favoriteVideos.length})</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="all">
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="space-y-3">
+                  <Skeleton className="h-[180px] w-full rounded-lg" />
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-4 w-1/2" />
+                </div>
+              ))}
+            </div>
+          ) : error ? (
+            <div className="text-center py-10">
+              <p className="text-destructive">Error loading videos. Please try again later.</p>
+            </div>
+          ) : filteredAllVideos.length > 0 ? (
+            <VideoList
+              videos={filteredAllVideos}
+              onVideoSelect={handleVideoSelect}
+              onToggleFavorite={toggleFavorite}
+              isFavorite={isFavorite}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          ) : (
+            <div className="text-center py-10">
+              <p className="text-muted-foreground">No videos found matching your search.</p>
+            </div>
+          )}
+        </TabsContent>
+
+        <TabsContent value="favorites">
+          {favoriteVideos.length > 0 ? (
+            filteredFavoriteVideos.length > 0 ? (
+              <VideoList
+                videos={filteredFavoriteVideos}
+                onVideoSelect={handleVideoSelect}
+                onToggleFavorite={toggleFavorite}
+                isFavorite={isFavorite}
+              />
+            ) : (
+              <div className="text-center py-10">
+                <p className="text-muted-foreground">No favorite videos match your search.</p>
+              </div>
+            )
+          ) : (
+            <div className="text-center py-10">
+              <p className="text-muted-foreground">No favorite videos yet. Add some from the All Videos tab!</p>
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
-  );
+  )
 }
