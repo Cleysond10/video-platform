@@ -21,7 +21,7 @@ export default function VideoPlayer({ video, open, onOpenChange }: VideoPlayerPr
       <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader className="flex flex-row items-center justify-between">
           <DialogTitle className="text-xl line-clamp-1">{video.title}</DialogTitle>
-          <Button variant="ghost" size="icon" onClick={() => onOpenChange(false)} className="h-8 w-8 rounded-full">
+          <Button variant="ghost" size="icon" onClick={() => onOpenChange(false)} className="h-8 w-8 rounded-full hover:bg-foreground cursor-pointer">
             <X className="h-4 w-4" />
             <span className="sr-only">Close</span>
           </Button>

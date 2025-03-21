@@ -30,7 +30,7 @@ export default function VideoCard({ video, isFavorite, onToggleFavorite, onSelec
   }
 
   return (
-    <Card className="overflow-hidden h-full flex flex-col transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:border-primary/20 cursor-pointer group">
+    <Card className="overflow-hidden border-foreground bg-background hover:bg-foreground h-full flex flex-col transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:border-primary/20 cursor-pointer group">
       <div className="relative aspect-video" onClick={onSelect}>
         <Image
           src={video.thumbnailUrl}
@@ -65,11 +65,11 @@ export default function VideoCard({ video, isFavorite, onToggleFavorite, onSelec
 
       <CardContent className="pt-4 flex-grow" onClick={onSelect}>
         <div className="flex justify-between items-start gap-2">
-          <h3 className="font-semibold line-clamp-2 group-hover:text-primary transition-colors">{video.title}</h3>
+          <h3 className="font-semibold line-clamp-2 group-hover:text-text transition-colors">{video.title}</h3>
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 shrink-0 rounded-full overflow-hidden"
+            className="h-8 w-8 shrink-0 rounded-full overflow-hidden hover:bg-foreground cursor-pointer"
             onClick={handleFavoriteClick}
             aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
           >
