@@ -11,6 +11,7 @@ import type { VideoData } from "@/types/video"
 import { useSearch } from "@/hooks/use-search"
 import { Skeleton } from "@/components/ui/skeleton"
 import VideoDialog from "@/components/video-player"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 export default function VideoHomePage() {
   const [selectedVideo, setSelectedVideo] = useState<VideoData | null>(null)
@@ -32,7 +33,11 @@ export default function VideoHomePage() {
 
   return (
     <div className="container mx-auto px-4 py-6 max-w-7xl">
-      <h1 className="text-3xl font-bold mb-6">VEx Platform</h1>
+      <div className="flex justify-between">
+        <h1 className="text-3xl font-bold mb-6">VEx Platform</h1>
+        <ThemeToggle />
+      </div>
+
 
       <VideoDialog
         video={selectedVideo}
@@ -56,7 +61,7 @@ export default function VideoHomePage() {
       </div>
 
       <Tabs defaultValue="all" className="mb-6" onValueChange={(value) => setActiveTab(value)}>
-        <TabsList className="mb-4">
+        <TabsList className="mb-4 gap-1 bg-foreground">
           <TabsTrigger value="all">All Videos</TabsTrigger>
           <TabsTrigger value="favorites">Favorites ({favoriteVideos.length})</TabsTrigger>
         </TabsList>
