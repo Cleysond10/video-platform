@@ -9,7 +9,6 @@ interface VideoPlayerProps {
   video: VideoData | null
   open: boolean
   onOpenChange: (open: boolean) => void
-  videos: VideoData[]
   onVideoChange: (video: VideoData) => void
 }
 
