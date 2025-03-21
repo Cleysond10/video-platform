@@ -10,13 +10,14 @@ import { useFavorites } from "@/hooks/use-favorites"
 import type { VideoData } from "@/types/video"
 import { useSearch } from "@/hooks/use-search"
 import { Skeleton } from "@/components/ui/skeleton"
-import VideoDialog from "@/components/video-player"
+import VideoPlayer from "@/components/video-player"
 import { ThemeToggle } from "@/components/theme-toggle"
 
 export default function VideoHomePage() {
   const [selectedVideo, setSelectedVideo] = useState<VideoData | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
-  const [activeTab, setActiveTab] = useState("all")
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, setActiveTab] = useState("all")
   const { videos, isLoading, error } = useVideos()
   const { favorites, toggleFavorite, isFavorite } = useFavorites()
 
@@ -24,8 +25,6 @@ export default function VideoHomePage() {
 
   const filteredAllVideos = useSearch(videos, searchQuery)
   const filteredFavoriteVideos = useSearch(favoriteVideos, searchQuery)
-
-  const currentVideoList = activeTab === "all" ? filteredAllVideos : filteredFavoriteVideos
 
   const handleVideoSelect = (video: VideoData) => {
     setSelectedVideo(video)
@@ -38,14 +37,12 @@ export default function VideoHomePage() {
         <ThemeToggle />
       </div>
 
-
-      <VideoDialog
+      <VideoPlayer
         video={selectedVideo}
         open={!!selectedVideo}
         onOpenChange={(open) => {
           if (!open) setSelectedVideo(null)
         }}
-        videos={currentVideoList}
         onVideoChange={setSelectedVideo}
       />
 

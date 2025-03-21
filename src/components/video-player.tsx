@@ -13,6 +13,17 @@ interface VideoPlayerProps {
 }
 
 export default function VideoPlayer({ video, open, onOpenChange }: VideoPlayerProps) {
+  const getEmbedUrl = ({ platform, url }: VideoData) => {
+    if (platform === "youtube") {
+      const baseUrl = url.split('?')[0];
+      return `${baseUrl}?autoplay=1&enablejsapi=1&origin=${window.location.origin}`
+    } else if (platform === "vimeo") {
+      const baseUrl = url.split('?')[0];
+      return `${baseUrl}?autoplay=1`
+    }
+    return url
+  }
+
   if (!video) return null
 
   return (
@@ -29,7 +40,7 @@ export default function VideoPlayer({ video, open, onOpenChange }: VideoPlayerPr
         <div className="aspect-video w-full mt-2 relative">
           <iframe
             id="youtube-player"
-            src={video.url}
+            src={getEmbedUrl(video)}
             title={video.title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
