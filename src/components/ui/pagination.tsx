@@ -39,6 +39,8 @@ const PaginationLink = ({ className, isActive, size = "icon", ...props }: Pagina
         variant: isActive ? "outline" : "ghost",
         size,
       }),
+      "focus:bg-foreground cursor-pointer border-text hover:bg-foreground rounded-md",
+      isActive ? "bg-foreground" : "hover:bg-foreground",
       className,
     )}
     {...props}
@@ -86,4 +88,3 @@ export {
   PaginationPrevButton as PaginationPrevious,
   PaginationNextButton as PaginationNext,
 }
-
