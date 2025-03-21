@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en" className="bg-background">
       <body className={inter.className}>
         <QueryProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
             {children}
           </ThemeProvider>
         </QueryProvider>
