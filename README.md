@@ -1,6 +1,6 @@
-# VEx - A Next.js Video Streaming Platform
+# VEx - Video Experience Platform
 
-A modern video streaming platform built with Next.js 15, React, and TypeScript. This application allows users to browse, search, and watch videos from YouTube and Vimeo, with features like favorites, theme toggle and responsive design.
+A modern video streaming platform built with Next.js 15, React, and TypeScript. This application allows users to browse, search, and watch videos from YouTube and Vimeo, with features like favorites, autoplay, theme toggle and responsive design.
 
 ## 📋 Table of Contents
 
@@ -19,6 +19,7 @@ A modern video streaming platform built with Next.js 15, React, and TypeScript. 
 - **Video Browsing**: Browse through a collection of videos with thumbnail previews
 - **Search Functionality**: Search videos by title, description, or channel
 - **Favorites System**: Add videos to favorites and access them in a dedicated tab
+- **Autoplay**: Automatically play the video when clicked
 - **Responsive Design**: Fully responsive UI that works on mobile, tablet, and desktop
 - **Interactive UI**: Hover effects, animations, and visual feedback for user interactions
 - **Pagination**: Navigate through video listings with a clean pagination interface
@@ -30,6 +31,7 @@ A modern video streaming platform built with Next.js 15, React, and TypeScript. 
 - **React 18**: UI library for building component-based interfaces
 - **TypeScript**: Static type checking for improved developer experience
 - **TanStack Query (React Query)**: Data fetching, caching, and state management
+- **Vitest and react-testing-library**: Libraries to coverage and secure the project with unit tests
 
 ### UI and Styling
 - **Tailwind CSS**: Utility-first CSS framework
@@ -79,6 +81,20 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
+## 🔍 Testing
+
+1. **In Watch Mode**
+
+Run the following command.
+
+```bash
+npm run test
+# or
+yarn test
+```
+Open your terminal to see your tests status and progress.
+
+
 ## 📖 Usage Guide
 
 ### Browsing Videos
@@ -97,6 +113,10 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to see the a
 - Click the heart icon on any video card to add it to your favorites
 - Access your favorite videos by clicking the "Favorites" tab
 - Click the heart icon again to remove a video from favorites
+
+### Video AutoPlay
+
+- Videos automatically play when opened
 
 ### Responsive Design
 
