@@ -9,6 +9,9 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "VEx Platform",
   description: "A new video experience streaming platform built with Next.js 15 and React Query.",
+  icons: {
+    icon: "/player.svg",
+  },
 };
 
 export default function RootLayout({
