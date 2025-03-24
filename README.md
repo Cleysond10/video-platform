@@ -2,6 +2,8 @@
 
 A modern video streaming platform built with Next.js 15, React, and TypeScript. This application allows users to browse, search, and watch videos from YouTube and Vimeo, with features like favorites, autoplay, theme toggle and responsive design.
 
+Access the app website in this link: https://vexplatform.netlify.app/
+
 ## 📋 Table of Contents
 
 - [Features](#features)
