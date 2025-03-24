@@ -69,7 +69,7 @@ export default function VideoCard({ video, isFavorite, onToggleFavorite, onSelec
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 shrink-0 rounded-full overflow-hidden hover:bg-foreground cursor-pointer"
+            className="h-8 w-8 shrink-0 rounded-full overflow-hidden hover:bg-background cursor-pointer"
             onClick={handleFavoriteClick}
             aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
           >
