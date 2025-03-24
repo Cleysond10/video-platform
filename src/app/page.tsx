@@ -16,8 +16,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 export default function VideoHomePage() {
   const [selectedVideo, setSelectedVideo] = useState<VideoData | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setActiveTab] = useState("all")
+  const [activeTab, setActiveTab] = useState("all")
   const { videos, isLoading, error } = useVideos()
   const { favorites, toggleFavorite, isFavorite } = useFavorites()
 
@@ -25,6 +24,8 @@ export default function VideoHomePage() {
 
   const filteredAllVideos = useSearch(videos, searchQuery)
   const filteredFavoriteVideos = useSearch(favoriteVideos, searchQuery)
+
+  const currentVideoList = activeTab === "all" ? filteredAllVideos : filteredFavoriteVideos
 
   const handleVideoSelect = (video: VideoData) => {
     setSelectedVideo(video)
@@ -43,6 +44,7 @@ export default function VideoHomePage() {
         onOpenChange={(open) => {
           if (!open) setSelectedVideo(null)
         }}
+        videos={currentVideoList}
         onVideoChange={setSelectedVideo}
       />
 

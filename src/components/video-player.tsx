@@ -2,17 +2,18 @@
 
 import type { VideoData } from "@/types/video"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { X } from "lucide-react"
+import { ChevronLeft, ChevronRight, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 interface VideoPlayerProps {
   video: VideoData | null
   open: boolean
   onOpenChange: (open: boolean) => void
+  videos: VideoData[]
   onVideoChange: (video: VideoData) => void
 }
 
-export default function VideoPlayer({ video, open, onOpenChange }: VideoPlayerProps) {
+export default function VideoPlayer({ video, open, onOpenChange, videos, onVideoChange }: VideoPlayerProps) {
   const getEmbedUrl = ({ platform, url }: VideoData) => {
     if (platform === "youtube") {
       const baseUrl = url.split('?')[0];
@@ -22,6 +23,28 @@ export default function VideoPlayer({ video, open, onOpenChange }: VideoPlayerPr
       return `${baseUrl}?autoplay=1`
     }
     return url
+  }
+
+  const getNext = () => {
+    if (!video || videos.length === 0) return null
+
+    const currentIndex = videos.findIndex((v) => v.id === video.id)
+    if (currentIndex === -1 || currentIndex === videos.length - 1) {
+      return videos[0]
+    }
+
+    return videos[currentIndex + 1]
+  }
+
+  const getPrev = () => {
+    if (!video || videos.length === 0) return null
+
+    const currentIndex = videos.findIndex((v) => v.id === video.id)
+    if (currentIndex === 0) {
+      return videos[videos.length - 1]
+    }
+
+    return videos[currentIndex - 1]
   }
 
   if (!video) return null
@@ -52,6 +75,32 @@ export default function VideoPlayer({ video, open, onOpenChange }: VideoPlayerPr
           <div className="flex items-center justify-between mb-2">
             <div className="text-sm text-muted-foreground">
               {video.views} views • {video.publishedAt}
+            </div>
+            <div className="flex items-center gap-4">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const prevVideo = getPrev()
+                  if (prevVideo) onVideoChange(prevVideo)
+                }}
+                className="flex items-center gap-1"
+              >
+                <ChevronLeft className="h-4 w-4" />
+                <span>Previous</span>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const nextVideo = getNext()
+                  if (nextVideo) onVideoChange(nextVideo)
+                }}
+                className="flex items-center gap-1"
+              >
+                <span>Next Video</span>
+                <ChevronRight className="h-4 w-4" />
+              </Button>
             </div>
           </div>
           <div>
