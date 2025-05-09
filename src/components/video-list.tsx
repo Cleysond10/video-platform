@@ -10,18 +10,29 @@ import {
   PaginationPrevious,
   PaginationNext,
 } from "@/components/ui/pagination"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 interface VideoListProps {
   videos: VideoData[]
   onVideoSelect: (video: VideoData) => void
   onToggleFavorite: (videoId: string) => void
   isFavorite: (videoId: string) => boolean
+  onVideoAdded?: () => void
 }
 
-export default function VideoList({ videos, onVideoSelect, onToggleFavorite, isFavorite }: VideoListProps) {
+export default function VideoList({ videos, onVideoSelect, onToggleFavorite, isFavorite, onVideoAdded, }: VideoListProps) {
   const [currentPage, setCurrentPage] = useState(1)
   const videosPerPage = 6
+
+    useEffect(() => {
+      setCurrentPage(1)
+    }, [videos.length])
+
+    useEffect(() => {
+      if (onVideoAdded) {
+        onVideoAdded()
+      }
+    }, [onVideoAdded])
 
   const indexOfLastVideo = currentPage * videosPerPage
   const indexOfFirstVideo = indexOfLastVideo - videosPerPage
