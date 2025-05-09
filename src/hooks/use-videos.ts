@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 import { fetchVideos } from "@/services/video-service"
 
 export function useVideos() {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["videos"],
     queryFn: fetchVideos,
     staleTime: 1000 * 60 * 5,
@@ -12,5 +12,6 @@ export function useVideos() {
     videos: data || [],
     isLoading,
     error,
+    refetch,
   }
 }

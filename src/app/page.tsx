@@ -12,12 +12,13 @@ import { useSearch } from "@/hooks/use-search"
 import { Skeleton } from "@/components/ui/skeleton"
 import VideoPlayer from "@/components/video-player"
 import { ThemeToggle } from "@/components/theme-toggle"
+import AddVideoButton from "@/components/add-video-button"
 
 export default function VideoHomePage() {
   const [selectedVideo, setSelectedVideo] = useState<VideoData | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
   const [activeTab, setActiveTab] = useState("all")
-  const { videos, isLoading, error } = useVideos()
+  const { videos, isLoading, error, refetch } = useVideos()
   const { favorites, toggleFavorite, isFavorite } = useFavorites()
 
   const favoriteVideos = videos.filter((video) => favorites.includes(video.id))
@@ -33,8 +34,9 @@ export default function VideoHomePage() {
 
   return (
     <div className="container mx-auto px-4 py-6 max-w-7xl">
-      <div className="flex justify-between">
-        <h1 className="text-3xl font-bold mb-6">VEx Platform</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+        <h1 className="text-3xl font-bold">VideoStream</h1>
+        <AddVideoButton />
         <ThemeToggle />
       </div>
 
@@ -86,6 +88,7 @@ export default function VideoHomePage() {
               onVideoSelect={handleVideoSelect}
               onToggleFavorite={toggleFavorite}
               isFavorite={isFavorite}
+              onVideoAdded={refetch}
             />
           ) : (
             <div className="text-center py-10">
@@ -102,6 +105,7 @@ export default function VideoHomePage() {
                 onVideoSelect={handleVideoSelect}
                 onToggleFavorite={toggleFavorite}
                 isFavorite={isFavorite}
+                onVideoAdded={refetch}
               />
             ) : (
               <div className="text-center py-10">
