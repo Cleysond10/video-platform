@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { addVideo } from "@/services/indexdb-service"
 import type { VideoData } from "@/types/video"
 
@@ -35,10 +34,6 @@ export default function AddVideoModal({ open, onOpenChange }: AddVideoModalProps
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const handleSelectChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, platform: value }))
   }
 
   const extractVideoId = (url: string, platform: string) => {
@@ -120,6 +115,20 @@ export default function AddVideoModal({ open, onOpenChange }: AddVideoModalProps
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+        <div className="grid gap-2">
+            <Label htmlFor="url" className="required">
+              Video URL
+            </Label>
+            <Input
+              id="url"
+              name="url"
+              value={formData.url}
+              onChange={handleChange}
+              placeholder="https://www.youtube.com/watch?v=..."
+              required
+            />
+          </div>
+
           <div className="grid gap-2">
             <Label htmlFor="title" className="required">
               Title
@@ -149,36 +158,9 @@ export default function AddVideoModal({ open, onOpenChange }: AddVideoModalProps
             />
           </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="url" className="required">
-              Video URL
-            </Label>
-            <Input
-              id="url"
-              name="url"
-              value={formData.url}
-              onChange={handleChange}
-              placeholder="https://www.youtube.com/watch?v=..."
-              required
-            />
-            <p className="text-xs text-muted-foreground">
-              Enter a YouTube or Vimeo URL. The video ID will be extracted automatically.
-            </p>
-          </div>
+          <br />
+          <hr className="border-t border-gray-200" />
 
-          <div className="grid gap-2">
-            <Label htmlFor="platform">Platform</Label>
-            <Select value={formData.platform} onValueChange={handleSelectChange}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select platform" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="youtube">YouTube</SelectItem>
-                <SelectItem value="vimeo">Vimeo</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
@@ -208,20 +190,6 @@ export default function AddVideoModal({ open, onOpenChange }: AddVideoModalProps
               <Label htmlFor="views">Views (Optional)</Label>
               <Input id="views" name="views" value={formData.views} onChange={handleChange} placeholder="e.g. 1.5K" />
             </div>
-          </div>
-
-          <div className="grid gap-2">
-            <Label htmlFor="thumbnailUrl">Thumbnail URL (Optional)</Label>
-            <Input
-              id="thumbnailUrl"
-              name="thumbnailUrl"
-              value={formData.thumbnailUrl}
-              onChange={handleChange}
-              placeholder="https://example.com/thumbnail.jpg"
-            />
-            <p className="text-xs text-muted-foreground">
-              For YouTube videos, a thumbnail will be generated automatically if not provided.
-            </p>
           </div>
 
           <div className="grid gap-2">

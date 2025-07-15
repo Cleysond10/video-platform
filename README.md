@@ -59,8 +59,8 @@ Access the app website in this link: https://vexplatform.netlify.app/
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/videostream.git
-cd videostream
+git clone https://github.com/cleysond10/video-platform.git
+cd video-platform
 ```
 
 2. **Install dependencies**
